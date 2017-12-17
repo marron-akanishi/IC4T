@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block menu %}
+<script src="/static/js/log.js"></script>
+<div class="container">
+    <input type="button" class="btn btn-primary" onclick="location.href='/menu'" value="メニューに戻る">
+    <form class="form-inline" style="display:inline;">
+        <label for="date">日付: </label>
+        <select id="date" name="date" class="form-control">
+        {% for log in filelist %}
+            <option value="{{log}}">{{log}}
+        {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-primary">表示</button>
+    </form>
+</div>
+{% endblock menu %}
+{% block list %}
+<div class="container">
+<div id="logdata"></div>
+</div>
+{% endblock list %}

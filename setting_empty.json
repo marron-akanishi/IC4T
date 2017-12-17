@@ -1,0 +1,15 @@
+{
+    "SecretKey": "qwertyuiopasdfghjkl",
+    "AdminID": "",
+    "twitter_API": {
+        "CK": "",
+        "CS": "",
+        "Admin_Key": "",
+        "Admin_Secret": "",
+        "Callback_URL": "http://localhost:5000/authed"
+    },
+    "MaxCount": 100,
+    "AdminShow": true,
+    "LimitMode": false,
+    "Debug": false
+}

@@ -1,0 +1,51 @@
+#scroll_to_top {
+  /* 「TOPに戻る」ボタンにカーソルを載せた時に、
+  カーソルが指のマークになるようにしています。 */
+  cursor: pointer;
+
+  /* 常にページの右下に表示されるように固定します。 */
+  position: fixed;  /* 位置を固定させます。 */
+  right: 20px;      /* 画面の右橋から20px空けます。 */
+  bottom: 80px;     /* 画面の下端から20px空けます。 */
+}
+#scroll_to_bottom {
+  /* 「TOPに戻る」ボタンにカーソルを載せた時に、
+  カーソルが指のマークになるようにしています。 */
+  cursor: pointer;
+
+  /* 常にページの右下に表示されるように固定します。 */
+  position: fixed;  /* 位置を固定させます。 */
+  right: 20px;      /* 画面の右橋から20px空けます。 */
+  bottom: 20px;     /* 画面の下端から20px空けます。 */
+}
+.button {
+  /* ボタンのデザインを整えています。 */
+  padding: 15px 15px 3px;
+  font-size: 15px;
+  display: inline-block;
+  border: 1px solid #999;
+  border-radius: 1em;
+  background-color: #eee;
+}
+
+.trim {
+  overflow: hidden;
+  width: 150px;/* トリミングしたい枠の幅 */
+  height: 150px;/* トリミングしたい枠の高さ */
+  position: relative;
+}
+
+.trim img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: auto;
+}
+
+.thum:hover {
+  background: #dddddd;
+}

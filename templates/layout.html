@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IC4T</title>
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/static/js/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/static/js/bootstrap.min.js"></script>
+  </head>
+  <body style="padding-top:70px;">
+    {%- block navbar -%}
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#link-list" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Image Collecter for Twitter</a>
+      </div>
+      <ul id="link-list" class="nav navbar-nav collapse navbar-collapse">
+        <li>
+          <a class="nav-link" href="https://github.com/marron-akanishi/IC4T" target="_blank">GitHub</a>
+        </li>
+        <li>
+          <a class='nav-link' href="https://status.gnip.com/" target="_blank">API Status</a>
+        </li>
+        {% if route is undefined %}
+        <li class="visible-xs">
+          <a class='nav-link' href="/logout">ログアウト</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% if route is undefined %}
+        <p class="nav navbar-nav navbar-right hidden-xs" style="padding-right:20px;">
+          <button type="button" class="btn btn-danger navbar-btn" onClick="location.href='/logout'">
+            <span class="glyphicon glyphicon-log-out">ログアウト</span>
+          </button>
+        </p>
+      {% endif %}
+    </nav>
+    {%- endblock -%}
+    {% block menu %}{% endblock %}
+    <br>
+    {% block list %}{% endblock %}
+    {% block detail %}{% endblock %}
+    {%- block footer -%}
+    <div class="fixed-bottom text-center">
+      このサイトはGoogle Chromeで閲覧することを推奨しています。<br>
+      Copyright &copy; 2017 Marron Akanishi All Rights Reserved.<br>
+      各画像の著作権は、著作権者に帰属します。
+    </div>
+    {%- endblock -%}
+  </body>
+</html>

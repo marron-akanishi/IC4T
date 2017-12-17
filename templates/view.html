@@ -1,0 +1,50 @@
+{% extends "layout.html" %}
+{% block menu %}
+<link href="/static/css/loading.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/FileSaver.min.js"></script>
+<script src="/static/js/jszip.min.js"></script>
+<script src="/static/js/download.js"></script>
+<div class="container-fluid">
+  <input type="button" class="btn btn-primary" onclick="location.href='/menu'" value="メニューに戻る">
+  {% if count >= 1 %}
+    <input type="button" class="btn btn-primary" onclick="DownloadZip()" value="一括ダウンロード">
+  {% endif %}
+</div>
+{% endblock menu %}
+{% block list %}
+<link href="/static/css/list.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/totop.js"></script>
+<script src="/static/js/jquery.lazyload.min.js"></script>
+<div class="container-fluid">
+  <ul class="list-inline">
+    <li>取得件数 : {{count}}</li>
+    {% if result.time != 0 %}
+    <li>処理時間 : {{result.time}}s</li>
+    <li>処理枚数 : {{result.image_count}}</li>
+    <li>処理ツイート数 : {{result.tweet_count}}</li>
+    {% endif %}
+  </ul>
+  {% for detail in filelist %}
+  <div style="display:inline;">
+    <button onclick="location.href='/detail?mode={{mode}}&dbname={{dbname}}&id={{detail.id}}'" class="btn btn-link thum" data-toggle="tooltip" data-placement="top" title="{{detail.tags}}">
+      <div class="trim" id="{{detail.id}}">
+        <img data-original="{{detail.image}}:thumb" width="150" height="150" />
+        {% if detail.tags != "" %}
+          <span class="badge">ハッシュタグ</span>
+        {% endif %}
+      </div>
+    </button>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  $("img").lazyload();
+  $('[data-toggle="tooltip"]').tooltip();
+</script>
+<div id="scroll_to_top" class="button">
+  <p>トップに戻る</p>
+</div>
+<div id="scroll_to_bottom" class="button">
+  <p>最新の画像へ</p>
+</div>
+{% endblock list %}

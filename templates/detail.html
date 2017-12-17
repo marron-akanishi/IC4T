@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+{% block menu %}
+<script src="/static/js/form.js"></script>
+<div class="container">
+  <input type="button" class="btn btn-primary" onclick="location.href='/view?mode={{mode}}&dbname={{dbname}}#{{data.id}}'" value="一覧に戻る">
+  {% if data.id-1 >= 0 %}
+    <button id="prev" class="btn btn-default" onclick="location.href='/detail?mode={{mode}}&dbname={{dbname}}&id={{data.id-1}}'">＜</button>
+  {% else %}
+    <button class="btn btn-default" disabled>＜</button>
+  {% endif %}
+  {% if data.id+1 <= max %}
+    <button id="next" class="btn btn-default" onclick="location.href='/detail?mode={{mode}}&dbname={{dbname}}&id={{data.id+1}}'">＞</button>
+  {% else %}
+    <button class="btn btn-default" disabled>＞</button>
+  {% endif %}
+</div>
+{% endblock menu %}
+{% block detail %}
+<script type="text/javascript">
+  var image_url = '{{data.image}}:small';
+</script>
+<script src="/static/js/face.js"></script>
+<div class="container">
+  <table class="table table-condensed">
+    <tr><td>ID</td><td>{{data.id}}</td></tr>
+    <tr>
+      <td>ユーザーID</td>
+      <td>
+        @{{data.userid}}
+      </td>
+    </tr>
+    <tr><td>ハッシュタグ</td><td>{{data.tags}}</td></tr>
+    <tr><td>取得時刻</td><td>{{data.time}}</td></tr>
+  </table>
+  <ul class="nav nav-tabs" id="detailtab" role="tablist">
+    <li role="presentation" class="active"><a href="#face" aria-controls="face" role="tab" data-toggle="tab">Image</a></li>
+    <li role="presentation"><a href="#embed" aria-controls="embed" role="tab" data-toggle="tab">Tweet</a></li>
+  </ul>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="face">
+      <h4>
+        <label class="checkbox-inline"><input type="checkbox" id="facemode" checked>検出位置表示</label>
+        <button class="btn btn-default" onclick="window.open('https://images.google.com/searchbyimage?image_url={{data.image}}:large')">Google画像検索</button>
+        <form action="https://ascii2d.net/search/uri" method="POST" target="_brank" style="display: inline">
+          <input id='web_uri' name='uri' type='hidden' value='{{data.image}}'>
+          <button type="submit" class="btn btn-default">二次元画像詳細検索</button>
+        </form>
+      </h4>
+      <a href="{{data.image}}:orig"><canvas id="image_canvas" class="img-responsive img-thumbnail">画像を表示するには、canvasタグをサポートしたブラウザが必要です。</canvas></a>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="embed">
+      {{html|safe}}
+    </div>
+  </div>
+</div>
+<script>
+  $('[data-toggle="tooltip"]').tooltip();
+</script>
+{% endblock detail %}

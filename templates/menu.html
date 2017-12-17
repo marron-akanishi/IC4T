@@ -1,0 +1,144 @@
+{% extends "layout.html" %}
+{% block menu %}
+<link href="/static/css/loading.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/menu.js"></script>
+<div class="container">
+  <div class="alert alert-success" role="alert">@{{session['name']}}としてログインしました</div>
+  <h4>お知らせ</h4>
+  <iframe class="container" frameborder="0" id="news-iframe" src="/static/html/info.html"></iframe>
+  <h4>メニュー</h4>
+  <table class="table">
+  {% if setting.LimitMode == false %}
+    <tr>
+      <td>ホームTLの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="timeline">
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>自分のいいねの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="fav">
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>指定したユーザーの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="user">
+          <label for="userID">ユーザーID: </label>
+          <div class="input-group">
+            <div class="input-group-addon">@</div>
+            <input type="text" class="form-control" id="userID" name="query" placeholder="hoge" required>
+          </div>
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>指定したリストの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="list">
+          <label for="listurl">リストURL: </label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="listurl" name="query" placeholder="https://twitter.com/hoge/lists/hoge" required>
+          </div>
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>指定したハッシュタグの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="tag">
+          <label for="hashtag">ハッシュタグ: </label>
+          <div class="input-group">
+            <div class="input-group-addon">#</div>
+            <input type="text" class="form-control" id="hashtag" name="query" placeholder="hoge" required>
+          </div>
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+    <tr>
+      <td>指定したキーワードの直近{{setting.MaxCount}}件から画像を取得</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="keyword">
+          <label for="keyword">キーワード: </label>
+          <div class="input-group">
+            <input type="text" class="form-control" id="keyword" name="query" placeholder="hoge" required>
+          </div>
+          <button type="submit" class="btn btn-primary">取得開始</button>
+        </form>
+      </td>
+    </tr>
+  {% endif %}
+  {% if admin or setting.AdminShow or setting.LimitMode %}
+    <tr>
+      <td>管理者のTLから取得した画像を表示</td>
+      <td align="right">
+        <form class="form-inline" style="display:inline;">
+          <input type="hidden" name="mode" value="admin">
+          <label for="date">日付: </label>
+          <select id="date" name="date" class="form-control">
+            {% for dbfile in dblist %}
+              {% if dbfile == select %}
+                <option value="{{dbfile}}" selected>{{dbfile}}
+              {% else %}
+                <option value="{{dbfile}}">{{dbfile}}
+              {% endif %}
+            {% endfor %}
+          </select>
+          <button type="submit" class="btn btn-primary">表示</button>
+        </form>
+      </td>
+    </tr>
+  {% endif %}
+  {% if admin %}
+    <tr>
+      <td>ログを表示する</td>
+      <td align="right">
+        <input type="button" class="btn btn-primary" onclick="location.href='/admin/logs'" value="表示">
+      </td>
+    </tr>
+    <tr>
+      <td>データベースファイルの整理を行う</td>
+      <td align="right">
+        <button class="btn btn-primary" data-toggle="modal" data-target="#modal-dialog">実行</button>
+      </td>
+    </tr>
+    <div class="modal" id="modal-dialog" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="modal-label">確認</h4>
+          </div>
+          <div class="modal-body">
+              以下の条件に当てはまるファイルを削除します。<br>
+              ・3日以上に前に作成されたユーザー別DBファイル<br>
+              ・2週間以上前に作成された管理者TL収集DBファイルとログファイル<br>
+              よろしいですか？
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+              <button type="button" class="btn btn-danger" onclick="delfiles()">削除</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  </table>
+</div>
+{% endblock menu %}
